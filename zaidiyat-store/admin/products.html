@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Products - Admin</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="admin-layout">
+  <div class="sidebar">
+    <div class="sidebar-logo"><h2>🏪 Zaidiyat <span>Admin</span></h2></div>
+    <nav class="sidebar-menu">
+      <a href="dashboard.html">📊 Dashboard</a>
+      <a href="orders.html">📦 Orders</a>
+      <a href="products.html" class="active">🛍️ Products</a>
+      <a href="../index.html">🌐 Store دیکھیں</a>
+      <a href="#" onclick="localStorage.removeItem('zaid_user'); window.location.href='../login.html'">🚪 لاگ آؤٹ</a>
+    </nav>
+  </div>
+
+  <div class="admin-main">
+    <div class="admin-header">
+      <h2 style="font-size:1.2rem; font-weight:700;">🛍️ مصنوعات</h2>
+      <span style="font-size:0.85rem; color:var(--muted);">کل: ${PRODUCTS ? 12 : ''} مصنوعات</span>
+    </div>
+    <div class="admin-content">
+      <div class="table-card">
+        <div class="table-header">
+          <h3>تمام مصنوعات</h3>
+          <input type="text" id="search" placeholder="تلاش کریں..." oninput="renderProducts()" style="padding:6px 12px; border:1px solid var(--border); border-radius:6px; font-size:0.85rem; width:200px;">
+        </div>
+        <table>
+          <thead><tr><th>مصنوع</th><th>کیٹیگری</th><th>قیمت</th><th>پرانی قیمت</th><th>ریٹنگ</th><th>Reviews</th><th>Badge</th></tr></thead>
+          <tbody id="products-table"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="../js/app.js"></script>
+<script>
+const user = getCurrentUser();
+if (!user || user.role !== 'admin') window.location.href = '../login.html';
+
+function renderProducts() {
+  const q = document.getElementById('search').value.toLowerCase();
+  const filtered = PRODUCTS.filter(p => p.name.toLowerCase().includes(q) || p.category.includes(q));
+  document.getElementById('products-table').innerHTML = filtered.map(p => `
+    <tr>
+      <td><strong>${p.emoji} ${p.name}</strong></td>
+      <td><span style="background:var(--green-light); color:var(--green); padding:2px 8px; border-radius:10px; font-size:0.78rem;">${p.category}</span></td>
+      <td><strong style="color:var(--green)">${formatPrice(p.price)}</strong></td>
+      <td style="color:var(--muted); text-decoration:line-through">${p.oldPrice ? formatPrice(p.oldPrice) : '-'}</td>
+      <td>⭐ ${p.rating}</td>
+      <td>${p.reviews}</td>
+      <td>${p.badge ? `<span class="status-badge ${p.badge === 'hot' ? 'status-processing' : p.badge === 'sale' ? 'status-pending' : 'status-delivered'}">${p.badge.toUpperCase()}</span>` : '-'}</td>
+    </tr>`).join('');
+}
+renderProducts();
+</script>
+</body>
+</html>

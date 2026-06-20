@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orders - Admin</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="admin-layout">
+  <div class="sidebar">
+    <div class="sidebar-logo"><h2>🏪 Zaidiyat <span>Admin</span></h2></div>
+    <nav class="sidebar-menu">
+      <a href="dashboard.html">📊 Dashboard</a>
+      <a href="orders.html" class="active">📦 Orders</a>
+      <a href="products.html">🛍️ Products</a>
+      <a href="../index.html">🌐 Store دیکھیں</a>
+      <a href="#" onclick="localStorage.removeItem('zaid_user'); window.location.href='../login.html'">🚪 لاگ آؤٹ</a>
+    </nav>
+  </div>
+
+  <div class="admin-main">
+    <div class="admin-header">
+      <h2 style="font-size:1.2rem; font-weight:700;">📦 تمام آرڈرز</h2>
+      <div style="display:flex; gap:0.75rem; align-items:center;">
+        <select id="filter-status" onchange="renderOrders()" style="padding:6px 10px; border:1px solid var(--border); border-radius:6px; font-size:0.85rem;">
+          <option value="all">سب</option>
+          <option value="pending">زیر التواء</option>
+          <option value="processing">پروسیسنگ</option>
+          <option value="delivered">ڈیلیور</option>
+          <option value="cancelled">منسوخ</option>
+        </select>
+        <button onclick="clearAllOrders()" style="padding:6px 12px; background:#fee2e2; color:#dc2626; border:1px solid #fca5a5; border-radius:6px; cursor:pointer; font-size:0.85rem;">سب صاف کریں</button>
+      </div>
+    </div>
+    <div class="admin-content">
+      <div class="table-card">
+        <div id="orders-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="../js/app.js"></script>
+<script>
+const user = getCurrentUser();
+if (!user || user.role !== 'admin') window.location.href = '../login.html';
+
+function renderOrders() {
+  const filter = document.getElementById('filter-status').value;
+  let orders = getOrders();
+  if (filter !== 'all') orders = orders.filter(o => o.status === filter);
+
+  if (orders.length === 0) {
+    document.getElementById('orders-list').innerHTML = '<div style="padding:3rem; text-align:center; color:var(--muted);"><div style="font-size:3rem; margin-bottom:1rem;">📦</div><p>کوئی آرڈر نہیں</p></div>';
+    return;
+  }
+
+  document.getElementById('orders-list').innerHTML = `
+    <table>
+      <thead><tr><th>آرڈر ID</th><th>گاہک</th><th>پتہ</th><th>آئٹمز</th><th>رقم</th><th>ادائیگی</th><th>حالت</th><th>تاریخ</th></tr></thead>
+      <tbody>${orders.map(o => `
+        <tr>
+          <td><strong>${o.id}</strong></td>
+          <td>${o.customer?.name || '-'}<br><small style="color:var(--muted)">${o.customer?.phone || ''}</small></td>
+          <td style="font-size:0.85rem; color:var(--muted); max-width:150px;">${o.customer?.address || '-'}</td>
+          <td style="font-size:0.8rem;">${(o.items || []).map(i => `${i.emoji} ${i.name} ×${i.qty}`).join('<br>')}</td>
+          <td><strong style="color:var(--green)">${formatPrice(o.total || 0)}</strong></td>
+          <td style="text-transform:uppercase; font-size:0.8rem;">${o.payment || 'COD'}</td>
+          <td>
+            <select onchange="changeStatus('${o.id}', this.value)" style="font-size:0.8rem; padding:3px 6px; border:1px solid var(--border); border-radius:4px;">
+              <option value="pending" ${o.status==='pending'?'selected':''}>زیر التواء</option>
+              <option value="processing" ${o.status==='processing'?'selected':''}>پروسیسنگ</option>
+              <option value="delivered" ${o.status==='delivered'?'selected':''}>ڈیلیور</option>
+              <option value="cancelled" ${o.status==='cancelled'?'selected':''}>منسوخ</option>
+            </select>
+          </td>
+          <td style="font-size:0.85rem">${o.date || '-'}</td>
+        </tr>`).join('')}
+      </tbody>
+    </table>`;
+}
+
+function changeStatus(id, status) {
+  const orders = getOrders();
+  const o = orders.find(x => x.id === id);
+  if (o) { o.status = status; localStorage.setItem('zaid_orders', JSON.stringify(orders)); showToast('✅ حالت اپڈیٹ'); renderOrders(); }
+}
+
+function clearAllOrders() {
+  if (confirm('کیا آپ تمام آرڈرز ڈیلیٹ کرنا چاہتے ہیں؟')) {
+    localStorage.removeItem('zaid_orders');
+    renderOrders();
+    showToast('🗑️ تمام آرڈرز صاف کر دیے گئے');
+  }
+}
+
+renderOrders();
+</script>
+</body>
+</html>

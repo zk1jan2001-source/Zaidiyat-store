@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us - Zaidiyat Store</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .about-hero { background: linear-gradient(135deg, var(--green-dark), var(--green)); color:#fff; padding:4rem 1.5rem; text-align:center; }
+  .about-hero h1 { font-size:2.5rem; font-weight:800; margin-bottom:0.75rem; }
+  .stats-row { display:flex; gap:2rem; justify-content:center; flex-wrap:wrap; margin-top:2rem; }
+  .stat-item { text-align:center; }
+  .stat-item .num { font-size:2.5rem; font-weight:800; color:var(--gold); }
+  .stat-item .lbl { font-size:0.9rem; color:rgba(255,255,255,0.75); }
+  .team-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1.5rem; }
+  .team-card { background:var(--white); border-radius:var(--radius); border:1px solid var(--border); padding:2rem; text-align:center; }
+  .team-avatar { width:80px; height:80px; border-radius:50%; background:var(--green-light); color:var(--green); font-size:2rem; display:flex; align-items:center; justify-content:center; margin:0 auto 1rem; font-weight:700; }
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">Zaidiyat <span>Store</span></a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="products.html">Products</a></li>
+      <li><a href="about.html" class="active">About Us</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="login.html" id="login-link">Login</a></li>
+      <li><span id="user-greet" style="display:none; color:rgba(255,255,255,0.85); font-size:0.9rem;"></span></li>
+      <li><a href="cart.html" class="cart-btn">🛒 Cart <span class="cart-count">0</span></a></li>
+    </ul>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<div class="about-hero">
+  <h1>ہمارے بارے میں</h1>
+  <p>پاکستان کا بھروسہ مند ڈراپ شپنگ اسٹور</p>
+  <div class="stats-row">
+    <div class="stat-item"><div class="num">5000+</div><div class="lbl">خوش گاہک</div></div>
+    <div class="stat-item"><div class="num">200+</div><div class="lbl">مصنوعات</div></div>
+    <div class="stat-item"><div class="num">100+</div><div class="lbl">شہر</div></div>
+    <div class="stat-item"><div class="num">4.8⭐</div><div class="lbl">اوسط ریٹنگ</div></div>
+  </div>
+</div>
+
+<section class="section">
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:center; margin-bottom:4rem;">
+    <div>
+      <h2 style="font-size:2rem; font-weight:800; margin-bottom:1rem;">ہماری کہانی</h2>
+      <p style="color:var(--muted); line-height:1.8; margin-bottom:1rem;">
+        Zaidiyat Store 2022 میں شروع ہوا — ایک سادہ خیال کے ساتھ: پاکستانیوں کو بہترین مصنوعات بہترین قیمتوں پر گھر بیٹھے ملیں۔
+      </p>
+      <p style="color:var(--muted); line-height:1.8; margin-bottom:1rem;">
+        ہم Cash on Delivery پر یقین رکھتے ہیں کیونکہ ہمارے گاہک کا بھروسہ ہمارے لیے سب سے اہم ہے۔ پہلے مال لیں، پھر پیسے دیں!
+      </p>
+      <a href="products.html" class="btn btn-green">ابھی خریدیں</a>
+    </div>
+    <div style="background:var(--green-light); border-radius:var(--radius); padding:3rem; text-align:center; font-size:6rem;">🏪</div>
+  </div>
+
+  <div class="section-title">
+    <h2>ہماری ٹیم</h2>
+    <p>وہ لوگ جو آپ کی خدمت میں ہیں</p>
+  </div>
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="team-avatar">ZA</div>
+      <h3 style="font-weight:700; margin-bottom:0.25rem;">Zaid Ahmad</h3>
+      <p style="color:var(--muted); font-size:0.9rem;">Founder & CEO</p>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">SK</div>
+      <h3 style="font-weight:700; margin-bottom:0.25rem;">Sara Khan</h3>
+      <p style="color:var(--muted); font-size:0.9rem;">Head of Customer Service</p>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">OM</div>
+      <h3 style="font-weight:700; margin-bottom:0.25rem;">Omar Malik</h3>
+      <p style="color:var(--muted); font-size:0.9rem;">Logistics Manager</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid" style="max-width:1200px; margin:0 auto 2rem;">
+    <div class="footer-col"><h4>🏪 Zaidiyat Store</h4><p>Pakistan کا بھروسہ مند store۔</p></div>
+    <div class="footer-col"><h4>Links</h4><a href="index.html">Home</a><a href="products.html">Products</a><a href="contact.html">Contact</a></div>
+  </div>
+  <div class="footer-bottom"><p>© 2024 Zaidiyat Store. تمام حقوق محفوظ ہیں۔</p></div>
+</footer>
+
+<div id="toast"></div>
+<script src="js/app.js"></script>
+</body>
+</html>

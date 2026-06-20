@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Products - Zaidiyat Store</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">Zaidiyat <span>Store</span></a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="products.html" class="active">Products</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="login.html" id="login-link">Login</a></li>
+      <li><span id="user-greet" style="display:none; color:rgba(255,255,255,0.85); font-size:0.9rem;"></span></li>
+      <li><a href="cart.html" class="cart-btn">🛒 Cart <span class="cart-count">0</span></a></li>
+    </ul>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<div style="background: var(--green-dark); padding: 2rem 1.5rem; color:#fff; text-align:center;">
+  <h1 style="font-size:2rem; font-weight:800;">تمام مصنوعات</h1>
+  <p style="color:rgba(255,255,255,0.7);">بہترین قیمتوں پر اعلیٰ معیار کی مصنوعات</p>
+</div>
+
+<section class="section">
+  <!-- Search -->
+  <div class="search-bar">
+    <input type="text" class="search-input" id="search" placeholder="🔍 مصنوعات تلاش کریں..." oninput="applyFilters()">
+    <select class="filter-select" id="sort" onchange="applyFilters()">
+      <option value="">ترتیب دیں</option>
+      <option value="low">قیمت: کم سے زیادہ</option>
+      <option value="high">قیمت: زیادہ سے کم</option>
+      <option value="rating">بہترین ریٹنگ</option>
+    </select>
+  </div>
+
+  <!-- Category Filter -->
+  <div class="categories-row" id="cat-row">
+    <button class="cat-btn active" onclick="setCategory('all', this)">🛍️ سب</button>
+    <button class="cat-btn" onclick="setCategory('electronics', this)">📱 Electronics</button>
+    <button class="cat-btn" onclick="setCategory('accessories', this)">🎒 Accessories</button>
+    <button class="cat-btn" onclick="setCategory('home', this)">🏠 Home & Kitchen</button>
+    <button class="cat-btn" onclick="setCategory('sports', this)">⚽ Sports</button>
+  </div>
+
+  <div id="results-count" style="color: var(--muted); font-size:0.9rem; margin-bottom:1rem;"></div>
+  <div class="products-grid" id="products-container"></div>
+</section>
+
+<footer>
+  <div class="footer-grid" style="max-width:1200px; margin:auto 0 2rem;">
+    <div class="footer-col"><h4>🏪 Zaidiyat Store</h4><p>Pakistan کا بھروسہ مند store۔</p></div>
+    <div class="footer-col"><h4>Links</h4><a href="index.html">Home</a><a href="products.html">Products</a><a href="contact.html">Contact</a></div>
+  </div>
+  <div class="footer-bottom"><p>© 2024 Zaidiyat Store. تمام حقوق محفوظ ہیں۔</p></div>
+</footer>
+
+<div id="toast"></div>
+<script src="js/app.js"></script>
+<script>
+let currentCategory = 'all';
+
+function setCategory(cat, btn) {
+  currentCategory = cat;
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+
+function applyFilters() {
+  const query = document.getElementById('search').value;
+  const sort = document.getElementById('sort').value;
+  let results = filterProducts(query, currentCategory);
+
+  if (sort === 'low') results.sort((a, b) => a.price - b.price);
+  else if (sort === 'high') results.sort((a, b) => b.price - a.price);
+  else if (sort === 'rating') results.sort((a, b) => b.rating - a.rating);
+
+  document.getElementById('results-count').textContent = `${results.length} مصنوعات ملی`;
+  const container = document.getElementById('products-container');
+  container.innerHTML = results.length
+    ? results.map(productCard).join('')
+    : `<div class="empty-state" style="grid-column:1/-1"><div class="icon">😕</div><h3>کوئی مصنوع نہیں ملی</h3><p>دوسرے الفاظ میں تلاش کریں</p></div>`;
+}
+
+// Check URL params for category
+const urlCat = new URLSearchParams(window.location.search).get('cat');
+if (urlCat) {
+  currentCategory = urlCat;
+  document.querySelectorAll('.cat-btn').forEach(b => {
+    if (b.textContent.toLowerCase().includes(urlCat)) b.click();
+  });
+}
+
+applyFilters();
+</script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout - Zaidiyat Store</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">Zaidiyat <span>Store</span></a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="products.html">Products</a></li>
+      <li><a href="cart.html" class="active">Cart</a></li>
+      <li><a href="login.html" id="login-link">Login</a></li>
+      <li><span id="user-greet" style="display:none; color:rgba(255,255,255,0.85); font-size:0.9rem;"></span></li>
+      <li><a href="cart.html" class="cart-btn">🛒 Cart <span class="cart-count">0</span></a></li>
+    </ul>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<div style="background: var(--green-dark); padding: 2rem 1.5rem; color:#fff; text-align:center;">
+  <h1 style="font-size:2rem; font-weight:800;">✅ چیک آؤٹ</h1>
+</div>
+
+<section class="section">
+  <!-- Steps -->
+  <div class="steps" style="max-width:500px; margin:0 auto 2rem;">
+    <div class="step done"><div class="step-num">✓</div><span>کارٹ</span></div>
+    <div class="step active"><div class="step-num">2</div><span>تفصیلات</span></div>
+    <div class="step"><div class="step-num">3</div><span>تصدیق</span></div>
+  </div>
+
+  <div id="success-msg" style="display:none; text-align:center; padding:3rem;">
+    <div style="font-size:4rem; margin-bottom:1rem;">🎉</div>
+    <h2 style="font-size:2rem; font-weight:800; color:var(--green);">آرڈر مل گیا!</h2>
+    <p style="color:var(--muted); margin:1rem 0;">آرڈر نمبر: <strong id="order-num"></strong></p>
+    <p style="color:var(--muted); margin-bottom:2rem;">ہم جلد آپ سے رابطہ کریں گے۔</p>
+    <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+      <a href="index.html" class="btn btn-green">گھر جائیں</a>
+      <a href="#" id="order-wa" target="_blank" class="whatsapp-btn" style="display:inline-flex; width:auto; padding:0.75rem 1.25rem; text-decoration:none; border-radius:8px;">💬 WhatsApp آرڈر</a>
+    </div>
+  </div>
+
+  <div class="checkout-layout" id="checkout-form">
+    <!-- Left: Form -->
+    <div>
+      <div class="checkout-section">
+        <h3>📍 ڈیلیوری کی معلومات</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label>پہلا نام *</label>
+            <input type="text" id="fname" placeholder="Muhammad" required>
+          </div>
+          <div class="form-group">
+            <label>آخری نام *</label>
+            <input type="text" id="lname" placeholder="Ali" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>فون نمبر *</label>
+          <input type="tel" id="phone" placeholder="0300-1234567" required>
+        </div>
+        <div class="form-group">
+          <label>ای میل</label>
+          <input type="email" id="email" placeholder="email@example.com">
+        </div>
+        <div class="form-group">
+          <label>پورا پتہ *</label>
+          <input type="text" id="address" placeholder="گھر نمبر، گلی، محلہ" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>شہر *</label>
+            <select id="city" required>
+              <option value="">شہر منتخب کریں</option>
+              <option>Karachi</option>
+              <option>Lahore</option>
+              <option>Islamabad</option>
+              <option>Peshawar</option>
+              <option>Rawalpindi</option>
+              <option>Faisalabad</option>
+              <option>Multan</option>
+              <option>Quetta</option>
+              <option>Sialkot</option>
+              <option>Gujranwala</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>صوبہ</label>
+            <select id="province">
+              <option>Punjab</option>
+              <option>Sindh</option>
+              <option>KPK</option>
+              <option>Balochistan</option>
+              <option>AJK</option>
+              <option>GB</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="checkout-section">
+        <h3>💳 ادائیگی کا طریقہ</h3>
+        <label style="display:flex; align-items:center; gap:10px; padding:1rem; border:2px solid var(--green); border-radius:8px; cursor:pointer; margin-bottom:0.75rem; background:var(--green-light);">
+          <input type="radio" name="payment" value="cod" checked> 
+          <span>💵 <strong>Cash on Delivery</strong> — مال ملنے پر ادائیگی</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px; padding:1rem; border:1px solid var(--border); border-radius:8px; cursor:pointer; margin-bottom:0.75rem;">
+          <input type="radio" name="payment" value="easypaisa"> 
+          <span>📱 <strong>EasyPaisa</strong></span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px; padding:1rem; border:1px solid var(--border); border-radius:8px; cursor:pointer;">
+          <input type="radio" name="payment" value="jazzcash"> 
+          <span>📱 <strong>JazzCash</strong></span>
+        </label>
+      </div>
+
+      <div id="form-error" class="alert alert-error" style="display:none;"></div>
+      <button class="btn btn-green btn-full" onclick="placeOrder()" style="font-size:1.1rem; padding:1rem;">✅ آرڈر دیں</button>
+    </div>
+
+    <!-- Right: Summary -->
+    <div>
+      <div class="cart-summary">
+        <h3 style="font-weight:800; margin-bottom:1.25rem;">آرڈر خلاصہ</h3>
+        <div id="checkout-items" style="margin-bottom:1rem;"></div>
+        <div class="summary-row"><span>Sub Total</span><span id="co-subtotal">Rs. 0</span></div>
+        <div class="summary-row"><span>Shipping</span><span id="co-shipping">Rs. 200</span></div>
+        <div class="summary-row summary-total"><span>کل رقم</span><span id="co-total">Rs. 0</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="toast"></div>
+<script src="js/app.js"></script>
+<script>
+function loadCheckoutSummary() {
+  const cart = getCart();
+  const total = getCartTotal();
+  const shipping = total > 3000 ? 0 : 200;
+
+  document.getElementById('co-subtotal').textContent = formatPrice(total);
+  document.getElementById('co-shipping').textContent = shipping === 0 ? 'مفت' : formatPrice(shipping);
+  document.getElementById('co-total').textContent = formatPrice(total + shipping);
+
+  document.getElementById('checkout-items').innerHTML = cart.map(i => `
+    <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem; font-size:0.9rem;">
+      <span>${i.emoji} ${i.name} ×${i.qty}</span>
+      <span style="font-weight:700">${formatPrice(i.price * i.qty)}</span>
+    </div>`).join('');
+}
+
+function placeOrder() {
+  const fname = document.getElementById('fname').value.trim();
+  const lname = document.getElementById('lname').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const address = document.getElementById('address').value.trim();
+  const city = document.getElementById('city').value;
+  const errEl = document.getElementById('form-error');
+
+  if (!fname || !lname || !phone || !address || !city) {
+    errEl.style.display = 'flex';
+    errEl.textContent = '⚠️ براہ کرم تمام ضروری معلومات بھریں۔';
+    return;
+  }
+
+  const cart = getCart();
+  const total = getCartTotal();
+  const shipping = total > 3000 ? 0 : 200;
+  const payment = document.querySelector('input[name="payment"]:checked').value;
+  const orderId = 'ZS' + Date.now().toString().slice(-6);
+
+  const order = {
+    id: orderId,
+    date: new Date().toLocaleDateString('ur-PK'),
+    customer: { name: fname + ' ' + lname, phone, address: address + ', ' + city },
+    items: cart,
+    total: total + shipping,
+    payment,
+    status: 'pending'
+  };
+
+  saveOrder(order);
+  localStorage.removeItem('zaid_cart');
+  updateCartCount();
+
+  const itemsText = cart.map(i => `${i.name} ×${i.qty} = ${formatPrice(i.price * i.qty)}`).join('%0A');
+  const waMsg = `آرڈر نمبر: ${orderId}%0Aنام: ${fname} ${lname}%0Aفون: ${phone}%0Aپتہ: ${address}, ${city}%0A%0Aآرڈر:%0A${itemsText}%0A%0Aکل: ${formatPrice(total + shipping)}%0Aادائیگی: ${payment.toUpperCase()}`;
+
+  document.getElementById('order-num').textContent = orderId;
+  document.getElementById('order-wa').href = `https://wa.me/923001234567?text=${waMsg}`;
+  document.getElementById('checkout-form').style.display = 'none';
+  document.getElementById('success-msg').style.display = 'block';
+}
+
+loadCheckoutSummary();
+</script>
+</body>
+</html>

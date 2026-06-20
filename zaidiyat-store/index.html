@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zaidiyat Store - Pakistan's Trusted Dropshipping Store</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+  body { direction: ltr; }
+  .marquee-wrap { background: var(--gold); color: #fff; padding: 8px; overflow: hidden; }
+  .marquee { display: flex; gap: 3rem; animation: scroll 20s linear infinite; white-space: nowrap; font-size: 0.85rem; font-weight: 600; }
+  @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+  .categories-section { background: var(--white); padding: 3rem 1.5rem; }
+  .cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 1rem; max-width: 1200px; margin: auto; }
+  .cat-card {
+    background: var(--bg); border-radius: var(--radius);
+    border: 1px solid var(--border); padding: 1.25rem 1rem;
+    text-align: center; cursor: pointer; transition: all 0.2s;
+  }
+  .cat-card:hover { background: var(--green-light); border-color: var(--green); }
+  .cat-card .cat-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+  .cat-card p { font-size: 0.85rem; font-weight: 600; }
+  .testimonials { background: var(--green-dark); padding: 4rem 1.5rem; color: #fff; }
+  .testimonials .section-title h2, .testimonials .section-title p { color: #fff; }
+  .testimonials .section-title p { color: rgba(255,255,255,0.7); }
+  .testimonial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; max-width: 1200px; margin: auto; }
+  .testimonial-card { background: rgba(255,255,255,0.1); border-radius: var(--radius); padding: 1.5rem; }
+  .testimonial-card .stars { color: var(--gold); margin-bottom: 0.75rem; }
+  .testimonial-card p { font-size: 0.9rem; color: rgba(255,255,255,0.85); margin-bottom: 1rem; }
+  .testimonial-card .author { display: flex; align-items: center; gap: 10px; }
+  .author-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--gold); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; }
+  .author-name { font-weight: 600; font-size: 0.9rem; }
+  .author-city { font-size: 0.8rem; color: rgba(255,255,255,0.6); }
+</style>
+</head>
+<body>
+
+<!-- Announcement Bar -->
+<div class="marquee-wrap">
+  <div class="marquee">
+    <span>🚀 پاکستان بھر میں ڈیلیوری</span>
+    <span>📦 Rs. 3000 سے اوپر مفت شپنگ</span>
+    <span>💬 WhatsApp پر آرڈر کریں</span>
+    <span>🔒 محفوظ خریداری کی گارنٹی</span>
+    <span>↩️ 7 دن واپسی کی پالیسی</span>
+    <span>🚀 پاکستان بھر میں ڈیلیوری</span>
+    <span>📦 Rs. 3000 سے اوپر مفت شپنگ</span>
+    <span>💬 WhatsApp پر آرڈر کریں</span>
+    <span>🔒 محفوظ خریداری کی گارنٹی</span>
+    <span>↩️ 7 دن واپسی کی پالیسی</span>
+  </div>
+</div>
+
+<!-- Navbar -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">Zaidiyat <span>Store</span></a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="products.html">Products</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="login.html" id="login-link">Login</a></li>
+      <li><span id="user-greet" style="display:none; color:rgba(255,255,255,0.85); font-size:0.9rem;"></span></li>
+      <li><a href="cart.html" class="cart-btn">🛒 Cart <span class="cart-count">0</span></a></li>
+    </ul>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">🇵🇰 Pakistan's #1 Dropshipping Store</div>
+    <h1>بہترین مصنوعات<br>بہترین قیمت پر</h1>
+    <p>Karachi سے Peshawar تک — تیز ڈیلیوری، محفوظ خریداری</p>
+    <div class="hero-btns">
+      <a href="products.html" class="btn btn-primary">🛍️ ابھی خریدیں</a>
+      <a href="https://wa.me/923001234567?text=Hello! I want to know more" target="_blank" class="btn btn-outline">💬 WhatsApp کریں</a>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="section">
+  <div class="section-title">
+    <h2>ہم کیوں بہتر ہیں؟</h2>
+    <p>آپ کی خریداری ہماری ذمہ داری</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">🚀</div>
+      <h3>تیز ڈیلیوری</h3>
+      <p>2-5 کاروباری دنوں میں پاکستان بھر میں ڈیلیوری</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💰</div>
+      <h3>کم قیمت</h3>
+      <p>مارکیٹ سے سستی قیمتوں پر اعلیٰ معیار کی مصنوعات</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔒</div>
+      <h3>محفوظ خریداری</h3>
+      <p>Cash on Delivery — پہلے مال لیں، پھر پیسے دیں</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">↩️</div>
+      <h3>آسان واپسی</h3>
+      <p>7 دن کی واپسی کی پالیسی، کوئی سوال نہیں</p>
+    </div>
+  </div>
+</section>
+
+<!-- Categories -->
+<div class="categories-section">
+  <div class="section-title">
+    <h2>کیٹیگریز</h2>
+    <p>اپنی پسند کی کیٹیگری منتخب کریں</p>
+  </div>
+  <div class="cat-grid">
+    <div class="cat-card" onclick="window.location='products.html?cat=electronics'">
+      <div class="cat-icon">📱</div>
+      <p>Electronics</p>
+    </div>
+    <div class="cat-card" onclick="window.location='products.html?cat=accessories'">
+      <div class="cat-icon">🎒</div>
+      <p>Accessories</p>
+    </div>
+    <div class="cat-card" onclick="window.location='products.html?cat=home'">
+      <div class="cat-icon">🏠</div>
+      <p>Home & Kitchen</p>
+    </div>
+    <div class="cat-card" onclick="window.location='products.html?cat=sports'">
+      <div class="cat-icon">⚽</div>
+      <p>Sports</p>
+    </div>
+    <div class="cat-card" onclick="window.location='products.html'">
+      <div class="cat-icon">🛍️</div>
+      <p>All Products</p>
+    </div>
+  </div>
+</div>
+
+<!-- Featured Products -->
+<section class="section">
+  <div class="section-title">
+    <h2>مشہور مصنوعات</h2>
+    <p>گاہکوں کی پسندیدہ چیزیں</p>
+  </div>
+  <div class="products-grid" id="featured-products"></div>
+  <div style="text-align:center; margin-top:2rem;">
+    <a href="products.html" class="btn btn-green">تمام مصنوعات دیکھیں →</a>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<div class="testimonials">
+  <div class="section-title">
+    <h2>گاہکوں کی رائے</h2>
+    <p>ہزاروں خوش گاہک</p>
+  </div>
+  <div class="testimonial-grid">
+    <div class="testimonial-card">
+      <div class="stars">⭐⭐⭐⭐⭐</div>
+      <p>"بہت اچھا تجربہ! وائرلیس ایئربڈز کی کوالٹی شاندار ہے اور ڈیلیوری 3 دن میں آ گئی۔"</p>
+      <div class="author">
+        <div class="author-avatar">AK</div>
+        <div><div class="author-name">Ahmad Khan</div><div class="author-city">Lahore</div></div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="stars">⭐⭐⭐⭐⭐</div>
+      <p>"Cash on Delivery کی سہولت بہت پسند آئی۔ سمارٹ واچ بالکل اصلی ہے۔ شکریہ Zaidiyat!"</p>
+      <div class="author">
+        <div class="author-avatar">FR</div>
+        <div><div class="author-name">Fatima Raza</div><div class="author-city">Karachi</div></div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="stars">⭐⭐⭐⭐⭐</div>
+      <p>"WhatsApp پر آرڈر کرنا بہت آسان ہے۔ قیمت بھی مناسب اور سروس بھی بہترین!"</p>
+      <div class="author">
+        <div class="author-avatar">MU</div>
+        <div><div class="author-name">Muhammad Usman</div><div class="author-city">Peshawar</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h4>🏪 Zaidiyat Store</h4>
+      <p>پاکستان کا بھروسہ مند ڈراپ شپنگ اسٹور۔ اعلیٰ معیار کی مصنوعات بہترین قیمتوں پر۔</p>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <a href="index.html">Home</a>
+      <a href="products.html">Products</a>
+      <a href="about.html">About Us</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h4>Customer Service</h4>
+      <a href="cart.html">My Cart</a>
+      <a href="checkout.html">Checkout</a>
+      <a href="login.html">Login / Register</a>
+    </div>
+    <div class="footer-col">
+      <h4>رابطہ کریں</h4>
+      <p>📞 0300-1234567</p>
+      <p>📧 info@zaidiyatstore.pk</p>
+      <p>💬 WhatsApp: 0300-1234567</p>
+      <p>⏰ پیر تا ہفتہ, 9am - 9pm</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2024 Zaidiyat Store. تمام حقوق محفوظ ہیں۔ | Made with ❤️ in Pakistan</p>
+  </div>
+</footer>
+
+<div id="toast"></div>
+<script src="js/app.js"></script>
+<script>
+  // Load featured products (show 8)
+  document.getElementById('featured-products').innerHTML =
+    PRODUCTS.slice(0, 8).map(productCard).join('');
+</script>
+</body>
+</html>

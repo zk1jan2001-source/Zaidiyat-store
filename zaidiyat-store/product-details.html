@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Details - Zaidiyat Store</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .detail-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+  .product-big-img {
+    background: var(--bg); border-radius: var(--radius); border: 1px solid var(--border);
+    height: 380px; display: flex; align-items: center; justify-content: center;
+    font-size: 8rem;
+  }
+  .product-detail-info h1 { font-size: 1.8rem; font-weight: 800; margin-bottom: 0.5rem; }
+  .product-detail-info .category { color: var(--muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.75rem; }
+  .product-detail-info .rating-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+  .product-detail-info .price-big { font-size: 2rem; font-weight: 800; color: var(--green); }
+  .product-detail-info .price-old-big { font-size: 1.1rem; color: var(--muted); text-decoration: line-through; }
+  .discount-tag { background: #fee2e2; color: #dc2626; padding: 3px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; }
+  .detail-desc { background: var(--bg); border-radius: 8px; padding: 1rem; margin: 1rem 0; color: var(--muted); line-height: 1.6; }
+  .qty-selector { display: flex; align-items: center; gap: 1rem; margin: 1.25rem 0; }
+  .qty-selector label { font-weight: 600; }
+  .qty-big { display: flex; align-items: center; gap: 0.75rem; }
+  .qty-big button { width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--border); background: var(--white); font-size: 1.1rem; font-weight: 700; cursor: pointer; }
+  .qty-big span { font-size: 1.1rem; font-weight: 700; min-width: 32px; text-align: center; }
+  .action-btns { display: flex; gap: 1rem; }
+  .features-list { margin-top: 1.5rem; }
+  .features-list li { padding: 0.4rem 0; color: var(--muted); font-size: 0.9rem; }
+  .features-list li::before { content: '✅ '; }
+  @media (max-width: 768px) { .detail-layout { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">Zaidiyat <span>Store</span></a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="products.html" class="active">Products</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="login.html" id="login-link">Login</a></li>
+      <li><span id="user-greet" style="display:none; color:rgba(255,255,255,0.85); font-size:0.9rem;"></span></li>
+      <li><a href="cart.html" class="cart-btn">🛒 Cart <span class="cart-count">0</span></a></li>
+    </ul>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<section class="section">
+  <a href="products.html" style="color:var(--green); font-size:0.9rem; display:inline-flex; align-items:center; gap:4px; margin-bottom:2rem;">← تمام مصنوعات</a>
+  <div class="detail-layout" id="product-detail">
+    <div style="text-align:center; padding:4rem; color:var(--muted);">لوڈ ہو رہا ہے...</div>
+  </div>
+</section>
+
+<div id="toast"></div>
+<script src="js/app.js"></script>
+<script>
+let qty = 1;
+const pid = parseInt(localStorage.getItem('zaid_view_product') || '1');
+const p = PRODUCTS.find(x => x.id === pid) || PRODUCTS[0];
+const discount = p.oldPrice ? Math.round((1 - p.price / p.oldPrice) * 100) : 0;
+
+document.title = p.name + ' - Zaidiyat Store';
+document.getElementById('product-detail').innerHTML = `
+  <div class="product-big-img">${p.emoji}</div>
+  <div class="product-detail-info">
+    <div class="category">${p.category}</div>
+    <h1>${p.name}</h1>
+    <div class="rating-row">
+      <span style="color:var(--gold)">${'⭐'.repeat(Math.floor(p.rating))}</span>
+      <span style="font-size:0.9rem; color:var(--muted)">${p.rating} (${p.reviews} reviews)</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1rem;">
+      <span class="price-big">${formatPrice(p.price)}</span>
+      ${p.oldPrice ? `<span class="price-old-big">${formatPrice(p.oldPrice)}</span>` : ''}
+      ${discount ? `<span class="discount-tag">${discount}% OFF</span>` : ''}
+    </div>
+    <div class="detail-desc">${p.desc}</div>
+    <ul class="features-list">
+      <li>Cash on Delivery دستیاب</li>
+      <li>پاکستان بھر میں ڈیلیوری (2-5 دن)</li>
+      <li>7 دن واپسی کی ضمانت</li>
+      <li>اعلیٰ معیار کی ضمانت</li>
+    </ul>
+    <div class="qty-selector">
+      <label>مقدار:</label>
+      <div class="qty-big">
+        <button onclick="changeQty(-1)">−</button>
+        <span id="qty-display">1</span>
+        <button onclick="changeQty(1)">+</button>
+      </div>
+    </div>
+    <div class="action-btns">
+      <button class="btn btn-green" onclick="addToCartDetail()">🛒 کارٹ میں شامل کریں</button>
+      <a href="https://wa.me/923001234567?text=Hello! I want to order: ${encodeURIComponent(p.name)} - ${formatPrice(p.price)}" 
+         target="_blank" class="whatsapp-btn" style="text-decoration:none; padding:0.75rem 1.25rem; border-radius:8px; width:auto; display:inline-flex;">💬 WhatsApp آرڈر</a>
+    </div>
+  </div>`;
+
+function changeQty(d) {
+  qty = Math.max(1, qty + d);
+  document.getElementById('qty-display').textContent = qty;
+}
+function addToCartDetail() {
+  for (let i = 0; i < qty; i++) addToCart(p.id);
+  showToast('✅ ' + qty + ' آئٹم کارٹ میں شامل!');
+}
+</script>
+</body>
+</html>

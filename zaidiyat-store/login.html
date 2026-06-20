@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - Zaidiyat Store</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body style="background: var(--bg);">
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">Zaidiyat <span>Store</span></a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="products.html">Products</a></li>
+      <li><a href="cart.html" class="cart-btn">🛒 Cart <span class="cart-count">0</span></a></li>
+    </ul>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<div class="form-page">
+  <div class="form-card">
+    <div style="text-align:center; margin-bottom:1.5rem;">
+      <div style="font-size:2.5rem; margin-bottom:0.5rem;">🏪</div>
+      <h2>لاگ ان کریں</h2>
+      <p class="subtitle">اپنے اکاؤنٹ میں داخل ہوں</p>
+    </div>
+
+    <div id="login-error" class="alert alert-error" style="display:none;"></div>
+    <div id="login-success" class="alert alert-success" style="display:none;"></div>
+
+    <div class="form-group">
+      <label>ای میل</label>
+      <input type="email" id="email" placeholder="email@example.com">
+    </div>
+    <div class="form-group">
+      <label>پاس ورڈ</label>
+      <input type="password" id="password" placeholder="••••••••">
+    </div>
+
+    <button class="btn btn-green btn-full" onclick="doLogin()">لاگ ان کریں</button>
+
+    <div style="margin: 1rem 0; text-align:center; color:var(--muted); font-size:0.85rem;">یا</div>
+
+    <a href="https://wa.me/923001234567?text=Hello I want to order" target="_blank" class="whatsapp-btn">
+      💬 WhatsApp سے آرڈر کریں
+    </a>
+
+    <div class="form-footer">
+      <p>اکاؤنٹ نہیں ہے؟ <a href="register.html">رجسٹر کریں</a></p>
+    </div>
+
+    <div style="margin-top:1.5rem; padding:1rem; background:var(--bg); border-radius:8px; font-size:0.8rem; color:var(--muted);">
+      <strong>Admin Login:</strong><br>
+      Email: admin@zaidiyat.pk | Password: admin123
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="js/app.js"></script>
+<script>
+function doLogin() {
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  const errEl = document.getElementById('login-error');
+  const okEl = document.getElementById('login-success');
+
+  errEl.style.display = 'none';
+  okEl.style.display = 'none';
+
+  if (!email || !password) {
+    errEl.style.display = 'flex';
+    errEl.textContent = '⚠️ ای میل اور پاس ورڈ درج کریں۔';
+    return;
+  }
+
+  // Check admin
+  if (email === 'admin@zaidiyat.pk' && password === 'admin123') {
+    setCurrentUser({ name: 'Admin', email, role: 'admin' });
+    okEl.style.display = 'flex';
+    okEl.textContent = '✅ ایڈمن لاگ ان کامیاب!';
+    setTimeout(() => window.location.href = 'admin/dashboard.html', 1000);
+    return;
+  }
+
+  const users = getUsers();
+  const user = users.find(u => u.email === email && u.password === password);
+  if (user) {
+    setCurrentUser(user);
+    okEl.style.display = 'flex';
+    okEl.textContent = '✅ لاگ ان کامیاب! خوش آمدید ' + user.name;
+    setTimeout(() => window.location.href = 'index.html', 1000);
+  } else {
+    errEl.style.display = 'flex';
+    errEl.textContent = '❌ ای میل یا پاس ورڈ غلط ہے۔';
+  }
+}
+document.addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+</script>
+</body>
+</html>

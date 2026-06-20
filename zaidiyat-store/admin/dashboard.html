@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard - Zaidiyat Store</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="admin-layout">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <h2>🏪 Zaidiyat <span>Admin</span></h2>
+    </div>
+    <nav class="sidebar-menu">
+      <a href="dashboard.html" class="active">📊 Dashboard</a>
+      <a href="orders.html">📦 Orders</a>
+      <a href="products.html">🛍️ Products</a>
+      <a href="../index.html">🌐 Store دیکھیں</a>
+      <a href="#" onclick="adminLogout()">🚪 لاگ آؤٹ</a>
+    </nav>
+  </div>
+
+  <!-- Main -->
+  <div class="admin-main">
+    <div class="admin-header">
+      <h2 style="font-size:1.2rem; font-weight:700;">Dashboard</h2>
+      <span style="font-size:0.9rem; color:var(--muted);" id="admin-name">Admin</span>
+    </div>
+    <div class="admin-content">
+
+      <!-- Stats -->
+      <div class="stats-grid" id="stats-grid"></div>
+
+      <!-- Recent Orders -->
+      <div class="table-card">
+        <div class="table-header">
+          <h3>📦 حالیہ آرڈرز</h3>
+          <a href="orders.html" style="color:var(--green); font-size:0.9rem;">سب دیکھیں →</a>
+        </div>
+        <div id="orders-table"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="../js/app.js"></script>
+<script>
+function adminLogout() {
+  localStorage.removeItem('zaid_user');
+  window.location.href = '../login.html';
+}
+
+function loadDashboard() {
+  const user = getCurrentUser();
+  if (!user || user.role !== 'admin') { window.location.href = '../login.html'; return; }
+  document.getElementById('admin-name').textContent = user.name;
+
+  const orders = getOrders();
+  const users = getUsers();
+  const totalRevenue = orders.reduce((t, o) => t + (o.total || 0), 0);
+  const pending = orders.filter(o => o.status === 'pending').length;
+
+  document.getElementById('stats-grid').innerHTML = `
+    <div class="stat-card">
+      <div class="stat-icon" style="background:var(--green-light); color:var(--green);">💰</div>
+      <div class="stat-label">کل آمدنی</div>
+      <div class="stat-value">${formatPrice(totalRevenue)}</div>
+      <div class="stat-change">↑ محفوظ ڈیٹا</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background:var(--gold-light); color:var(--gold);">📦</div>
+      <div class="stat-label">کل آرڈرز</div>
+      <div class="stat-value">${orders.length}</div>
+      <div class="stat-change">${pending} زیر التواء</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background:#dbeafe; color:#2563eb;">👥</div>
+      <div class="stat-label">کل گاہک</div>
+      <div class="stat-value">${users.length}</div>
+      <div class="stat-change">رجسٹرڈ</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background:var(--green-light); color:var(--green);">🛍️</div>
+      <div class="stat-label">مصنوعات</div>
+      <div class="stat-value">${PRODUCTS.length}</div>
+      <div class="stat-change">فعال</div>
+    </div>`;
+
+  const tableOrders = orders.slice(0, 8);
+  if (tableOrders.length === 0) {
+    document.getElementById('orders-table').innerHTML = '<div style="padding:2rem; text-align:center; color:var(--muted);">ابھی کوئی آرڈر نہیں ہے</div>';
+    return;
+  }
+
+  document.getElementById('orders-table').innerHTML = `
+    <table>
+      <thead><tr><th>آرڈر ID</th><th>گاہک</th><th>رقم</th><th>ادائیگی</th><th>تاریخ</th><th>حالت</th><th>عمل</th></tr></thead>
+      <tbody>${tableOrders.map(o => `
+        <tr>
+          <td><strong>${o.id}</strong></td>
+          <td>${o.customer?.name || '-'}<br><small style="color:var(--muted)">${o.customer?.phone || ''}</small></td>
+          <td><strong>${formatPrice(o.total || 0)}</strong></td>
+          <td style="text-transform:uppercase; font-size:0.8rem;">${o.payment || 'COD'}</td>
+          <td>${o.date || '-'}</td>
+          <td><span class="status-badge status-${o.status}">${o.status === 'pending' ? 'زیر التواء' : o.status === 'delivered' ? 'ڈیلیور' : o.status}</span></td>
+          <td>
+            <select onchange="updateStatus('${o.id}', this.value)" style="font-size:0.8rem; padding:3px 6px; border:1px solid var(--border); border-radius:4px;">
+              <option value="pending" ${o.status==='pending'?'selected':''}>زیر التواء</option>
+              <option value="processing" ${o.status==='processing'?'selected':''}>پروسیسنگ</option>
+              <option value="delivered" ${o.status==='delivered'?'selected':''}>ڈیلیور</option>
+              <option value="cancelled" ${o.status==='cancelled'?'selected':''}>منسوخ</option>
+            </select>
+          </td>
+        </tr>`).join('')}
+      </tbody>
+    </table>`;
+}
+
+function updateStatus(orderId, status) {
+  const orders = getOrders();
+  const o = orders.find(x => x.id === orderId);
+  if (o) { o.status = status; localStorage.setItem('zaid_orders', JSON.stringify(orders)); showToast('✅ حالت اپڈیٹ ہوگئی'); }
+}
+
+loadDashboard();
+</script>
+</body>
+</html>
