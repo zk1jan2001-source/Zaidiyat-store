@@ -1,49 +1,20 @@
-// ===== GOOGLE SHEETS CONFIG =====
-// اپنی Google Sheet ID یہاں ڈالیں
-const SHEET_ID = '1Ma-VswmslDojYvRgKbCN2-hGkdXApKXPMr7UU0kJeBE';
-const SHEET_NAME = 'Products';
-const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
+// ===== DATA =====
+const PRODUCTS = [
+  { id: 1, name: 'Wireless Earbuds Pro', category: 'electronics', price: 2999, oldPrice: 4500, emoji: '🎧', rating: 4.5, reviews: 124, badge: 'sale', desc: 'High quality wireless earbuds with noise cancellation, 24hr battery life.' },
+  { id: 2, name: 'Smart Watch Series 5', category: 'electronics', price: 5499, oldPrice: 8000, emoji: '⌚', rating: 4.8, reviews: 89, badge: 'hot', desc: 'Feature-rich smartwatch with heart rate monitor, step counter, and notifications.' },
+  { id: 3, name: 'Phone Stand Holder', category: 'accessories', price: 799, oldPrice: 1200, emoji: '📱', rating: 4.3, reviews: 210, badge: 'new', desc: 'Adjustable phone stand for desk, perfect for video calls and streaming.' },
+  { id: 4, name: 'USB-C Fast Charger', category: 'electronics', price: 1299, oldPrice: 2000, emoji: '🔌', rating: 4.6, reviews: 315, badge: 'sale', desc: 'Fast charging 65W USB-C charger compatible with all major devices.' },
+  { id: 5, name: 'Portable Power Bank', category: 'electronics', price: 3499, oldPrice: 5000, emoji: '🔋', rating: 4.7, reviews: 178, badge: '', desc: '20000mAh power bank with dual USB ports and fast charging.' },
+  { id: 6, name: 'LED Desk Lamp', category: 'home', price: 1899, oldPrice: 2500, emoji: '💡', rating: 4.4, reviews: 93, badge: 'new', desc: 'Eye-friendly LED desk lamp with 3 brightness levels and USB charging port.' },
+  { id: 7, name: 'Silicone Phone Case', category: 'accessories', price: 499, oldPrice: 800, emoji: '📲', rating: 4.2, reviews: 456, badge: '', desc: 'Protective silicone case available for all iPhone and Samsung models.' },
+  { id: 8, name: 'Bluetooth Speaker', category: 'electronics', price: 4299, oldPrice: 6000, emoji: '🔊', rating: 4.9, reviews: 67, badge: 'hot', desc: 'Waterproof bluetooth speaker with 360° surround sound and 12hr battery.' },
+  { id: 9, name: 'Kitchen Knife Set', category: 'home', price: 2199, oldPrice: 3500, emoji: '🔪', rating: 4.5, reviews: 88, badge: '', desc: 'Professional 5-piece stainless steel kitchen knife set with wooden block.' },
+  { id: 10, name: 'Yoga Mat Premium', category: 'sports', price: 1599, oldPrice: 2200, emoji: '🧘', rating: 4.6, reviews: 142, badge: 'sale', desc: 'Non-slip premium yoga mat, 6mm thickness, ideal for all exercises.' },
+  { id: 11, name: 'Running Shoes', category: 'sports', price: 4999, oldPrice: 7000, emoji: '👟', rating: 4.8, reviews: 203, badge: 'hot', desc: 'Lightweight breathable running shoes with cushioned sole.' },
+  { id: 12, name: 'Backpack Travel Bag', category: 'accessories', price: 3299, oldPrice: 4500, emoji: '🎒', rating: 4.7, reviews: 175, badge: '', desc: '35L waterproof travel backpack with laptop compartment and USB port.' },
+];
 
 const WHATSAPP_NUMBER = '923199988744';
-
-// ===== LOAD PRODUCTS FROM GOOGLE SHEETS =====
-let PRODUCTS = [];
-
-async function loadProducts() {
-  try {
-    const res = await fetch(SHEET_URL);
-    const text = await res.text();
-    const json = JSON.parse(text.substring(47, text.length - 2));
-    const rows = json.table.rows;
-
-    PRODUCTS = rows.map((row, index) => {
-      const c = row.c;
-      return {
-        id: index + 1,
-        name: c[0]?.v || '',
-        category: (c[1]?.v || 'other').toLowerCase(),
-        price: parseInt(c[2]?.v) || 0,
-        oldPrice: parseInt(c[3]?.v) || 0,
-        emoji: c[4]?.v || '📦',
-        rating: parseFloat(c[5]?.v) || 4.5,
-        reviews: parseInt(c[6]?.v) || 0,
-        badge: c[7]?.v || '',
-        desc: c[8]?.v || '',
-      };
-    }).filter(p => p.name); // خالی rows ہٹائیں
-
-    return PRODUCTS;
-  } catch (err) {
-    console.error('Sheets load error:', err);
-    // Fallback products اگر Sheets نہ کھلے
-    PRODUCTS = [
-      { id: 1, name: 'Wireless Earbuds Pro', category: 'electronics', price: 2999, oldPrice: 4500, emoji: '🎧', rating: 4.5, reviews: 124, badge: 'sale', desc: 'High quality wireless earbuds.' },
-      { id: 2, name: 'Smart Watch Series 5', category: 'electronics', price: 5499, oldPrice: 8000, emoji: '⌚', rating: 4.8, reviews: 89, badge: 'hot', desc: 'Feature-rich smartwatch.' },
-      { id: 3, name: 'Phone Stand Holder', category: 'accessories', price: 799, oldPrice: 1200, emoji: '📱', rating: 4.3, reviews: 210, badge: 'new', desc: 'Adjustable phone stand.' },
-    ];
-    return PRODUCTS;
-  }
-}
 
 // ===== CART =====
 function getCart() {
@@ -94,7 +65,7 @@ function getCurrentUser() { return JSON.parse(localStorage.getItem('zaid_user') 
 function setCurrentUser(user) { localStorage.setItem('zaid_user', JSON.stringify(user)); }
 function logout() {
   localStorage.removeItem('zaid_user');
-  window.location.href = '../login.html';
+  window.location.href = 'login.html';
 }
 
 // ===== ORDERS =====
@@ -139,7 +110,6 @@ function productCard(p) {
       </div>
     </div>`;
 }
-
 function viewProduct(id) {
   localStorage.setItem('zaid_view_product', id);
   window.location.href = 'product-details.html';
@@ -151,6 +121,7 @@ function renderCart() {
   const emptyState = document.getElementById('cart-empty');
   const cartContent = document.getElementById('cart-content');
   if (!container) return;
+
   const cart = getCart();
   if (cart.length === 0) {
     if (emptyState) emptyState.style.display = 'block';
@@ -159,6 +130,7 @@ function renderCart() {
   }
   if (emptyState) emptyState.style.display = 'none';
   if (cartContent) cartContent.style.display = 'grid';
+
   container.innerHTML = cart.map(item => `
     <div class="cart-item">
       <div class="cart-item-img">${item.emoji}</div>
@@ -174,14 +146,25 @@ function renderCart() {
       </div>
       <div style="font-weight:800; color:var(--green)">${formatPrice(item.price * item.qty)}</div>
     </div>`).join('');
+
   const total = getCartTotal();
   const shipping = total > 3000 ? 0 : 200;
   document.getElementById('cart-subtotal').textContent = formatPrice(total);
   document.getElementById('cart-shipping').textContent = shipping === 0 ? 'مفت' : formatPrice(shipping);
   document.getElementById('cart-total').textContent = formatPrice(total + shipping);
+
   const orderText = cart.map(i => `${i.name} x${i.qty} = ${formatPrice(i.price * i.qty)}`).join('%0A');
   const waLink = document.getElementById('wa-link');
   if (waLink) waLink.href = `https://wa.me/${WHATSAPP_NUMBER}?text=السلام علیکم!%0Aمیں یہ آرڈر کرنا چاہتا ہوں:%0A${orderText}%0A%0Aکل: ${formatPrice(total + shipping)}`;
+}
+
+// ===== WHATSAPP ORDER =====
+function orderOnWhatsApp() {
+  const cart = getCart();
+  if (cart.length === 0) { showToast('⚠️ کارٹ خالی ہے!'); return; }
+  const total = getCartTotal();
+  const orderText = cart.map(i => `${i.name} x${i.qty} = ${formatPrice(i.price * i.qty)}`).join('%0A');
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=السلام علیکم!%0Aمیرا آرڈر:%0A${orderText}%0A%0Aکل رقم: ${formatPrice(total)}`, '_blank');
 }
 
 // ===== SEARCH =====
@@ -193,7 +176,7 @@ function filterProducts(query, category) {
   });
 }
 
-// ===== NAV =====
+// ===== HAMBURGER NAV =====
 function initNav() {
   const hamburger = document.getElementById('hamburger');
   const navLinks = document.getElementById('nav-links');
@@ -201,6 +184,7 @@ function initNav() {
     hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
   }
   updateCartCount();
+
   const user = getCurrentUser();
   const loginLink = document.getElementById('login-link');
   const userGreet = document.getElementById('user-greet');
