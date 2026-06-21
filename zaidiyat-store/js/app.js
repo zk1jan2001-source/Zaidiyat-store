@@ -14,7 +14,7 @@ const PRODUCTS = [
   { id: 12, name: 'Backpack Travel Bag', category: 'accessories', price: 3299, oldPrice: 4500, emoji: '🎒', rating: 4.7, reviews: 175, badge: '', desc: '35L waterproof travel backpack with laptop compartment and USB port.' },
 ];
 
-const WHATSAPP_NUMBER = '923001234567';
+const WHATSAPP_NUMBER = '923199988744';
 
 // ===== CART =====
 function getCart() {
@@ -192,4 +192,4 @@ function initNav() {
   if (user && userGreet) { userGreet.textContent = `👋 ${user.name}`; userGreet.style.display = 'inline'; }
 }
 
-document.addEventListener('DOMContentLoaded', initNav);
+document.addEventListener('DOMContentLoaded', initNav);s
